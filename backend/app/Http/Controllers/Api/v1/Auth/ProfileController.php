@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class ProfileController extends Controller
 {
@@ -22,6 +21,6 @@ class ProfileController extends Controller
 
         $request->user()->update($validatedData);
 
-        return response()->json($validatedData, Response::HTTP_ACCEPTED);
+        return response()->noContent();
     }
 }
