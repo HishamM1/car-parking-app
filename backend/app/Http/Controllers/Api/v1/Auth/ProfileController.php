@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProfileController extends Controller
 {
@@ -16,11 +17,11 @@ class ProfileController extends Controller
     {
         $validatedData = $request->validate([
             'name' => ['required','string','max:255'],
-            'email' => ['required','string','email','unique:users,email,'.$request->user->id],
+            'email' => ['required','string','email','unique:users,email,'.auth()->user()->id],
         ]);
 
-        $request->user()->update($validatedData);
+        auth()->user()->update($validatedData);
 
-        return response()->noContent();
+        return response()->json($validatedData, Response::HTTP_ACCEPTED);
     }
 }

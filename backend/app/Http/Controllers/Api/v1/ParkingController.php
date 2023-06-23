@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 
 class ParkingController extends Controller
 {
+    public function index()
+    {
+        $activeParkings = Parking::with('vehicle','zone')->active()->latest('start_time')->get();
+        return ParkingResource::collection($activeParkings);
+    }
+    public function history()
+    {
+        $stoppedParkings = Parking::with('vehicle','zone')->stopped()->latest('start_time')->get();
+        return ParkingResource::collection($stoppedParkings);
+    }
     public function show(Parking $parking)
     {
         $parking->load('vehicle','zone');
@@ -24,8 +34,8 @@ class ParkingController extends Controller
 
         if(Parking::active()->where('vehicle_id', $request->vehicle_id)->exists()) {
             return response()->json([
-                'message' => 'Vehicle is already parked',
-            ], 400);
+                'errors' => ['general' =>['Vehicle is already parked']],
+            ], 422);
         }
 
         $parking = Parking::create($parkingData);

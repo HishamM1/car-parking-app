@@ -24,6 +24,7 @@ class ParkingResource extends JsonResource
             ],
             'vehicle' => [
                 'plate_number' => $this->vehicle->plate_number,
+                'description' => $this->vehicle->description,
             ],
             'start_time' => $this->start_time->toDateTimeString(),
             'stop_time' => $this->stop_time?->toDateTimeString(),
