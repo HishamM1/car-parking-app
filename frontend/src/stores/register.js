@@ -29,7 +29,7 @@ export const useRegister = defineStore('register', () => {
         loading.value = true;
         errors.value = {};
         return window.axios.post('auth/register',form).then((response) => {
-            auth.login(response.data.access_token)
+            auth.login(response.data.access_token, "register")
         }).catch((error) => {
             if (error.response?.status === 422) {
                 errors.value = error.response.data.errors;
